@@ -617,18 +617,6 @@
         <div class="eyebrow reveal" data-i18n="couple_eyebrow">സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു</div>
         <p class="lead reveal reveal-d1" data-i18n="couple_lead">രണ്ട് ഹൃദയങ്ങൾ, ഒരു പുതിയ യാത്ര.<br>ഞങ്ങളുടെ സന്തോഷത്തിൽ പങ്കുചേരാൻ ഇരു കുടുംബങ്ങളോടൊപ്പം നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.</p>
 
-        <div class="photo-frame reveal reveal-d2">
-          <div class="couple-photo" id="couplePhoto">
-            <img src="assets/couple.jpg" width="1200" height="1500" alt="തോമസും ക്രിസ്റ്റീനയും" data-i18n-attr="alt:photo_alt" decoding="async">
-            <button type="button" class="couple-photo-overlay" id="photoReveal">
-              <span class="tap-icon" aria-hidden="true">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.5 2.6 5 6 5c2.1 0 3.4 1.1 4.2 2.4h3.6C14.6 6.1 15.9 5 18 5c3.4 0 5.1 3.5 3.6 6.8C19.5 16.4 12 21 12 21z" transform="translate(0 -.5)"/></svg>
-              </span>
-              <span class="tap-text" data-i18n="tap">ഫോട്ടോ കാണാൻ തൊടുക</span>
-            </button>
-          </div>
-        </div>
-
         <div class="names-row reveal reveal-d1">
           <div class="name-block">
             <div class="role" data-i18n="role_groom">വരൻ</div>
@@ -1085,23 +1073,8 @@
       function startAmbience() { playSong(); }
       musicBtn.addEventListener('click', function () { if (playing) pauseSong(); else playSong(); });
 
-      /* ---- Tap to reveal couple photo (also auto-reveals shortly after it scrolls into view) ---- */
-      var couplePhoto = document.getElementById('couplePhoto');
-      var revealBtn = document.getElementById('photoReveal');
-      function revealPhoto() { couplePhoto.classList.add('revealed'); if (revealBtn) revealBtn.tabIndex = -1; }
-      revealBtn.addEventListener('click', function (e) { e.stopPropagation(); revealPhoto(); });
-      couplePhoto.addEventListener('click', function () { if (couplePhoto.classList.contains('revealed')) openCoupleLb(); else revealPhoto(); });
-      if (reducedMotion || !('IntersectionObserver' in window)) {
-        revealPhoto();
-      } else {
-        var autoT = null;
-        new IntersectionObserver(function (entries, obs) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting && !autoT) { autoT = setTimeout(function () { revealPhoto(); obs.disconnect(); }, 3800); }
-            else if (!en.isIntersecting && autoT) { clearTimeout(autoT); autoT = null; }
-          });
-        }, { threshold: 0.6 }).observe(couplePhoto);
-      }
+      /* ---- Tap to reveal couple photo - REMOVED ---- */
+      /* Couple photo section has been removed from the page */
 
       /* ---- Gallery lightbox ---- */
       var figs = Array.prototype.slice.call(document.querySelectorAll('#gallery figure'));
@@ -1120,13 +1093,6 @@
         lb.querySelector('.lb-close').focus();
       }
       var soloLb = false;
-      window.openCoupleLb = function () {
-        var img = couplePhoto.querySelector('img');
-        lbImg.src = img.getAttribute('src'); lbImg.alt = img.alt;
-        soloLb = true; lb.classList.add('single');
-        lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); html.classList.add('lb-open');
-        lb.querySelector('.lb-close').focus();
-      };
       function closeLb() { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); html.classList.remove('lb-open'); soloLb = false; if (figs.length >= 2) lb.classList.remove('single'); }
       figs.forEach(function (f, i) {
         f.addEventListener('click', function () { openLightboxFor(i); });
